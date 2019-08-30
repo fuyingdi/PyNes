@@ -86,14 +86,107 @@ class InstructionSet6502:
 
 
 class CpuRegister:
-    stack_register = 0
+    stack_register = 0xfd
     pc_register = 0
     accumulator = 0
+    flags = 0x34
     x = 0
     y = 0
+
+    MASK_NEGATIVE = 0x80
+    MASK_OVERFLOW = 0x40
+    MASK_BREAK = 0x10
+    MASK_DECIMAL = 0x8
+    MASK_INTERUPT = 0x4
+    MASK_ZERO = 0x2
+    MASK_CARRAY = 0x1
+
     
     def get_pc(self):
         pass
+
+    def get_carry(self):
+        if (flags & MASK_CARRAY) != 0:
+            return 1
+        elif (flags &MASK_CARRAY) == 0:
+            return 0
+
+    def get_zero(self):
+        return (flags & MASK_ZERO)
+
+    """
+    set method
+    """
+    def _set_carry(self):
+        flags |= MASK_CARRAY
+
+    def _set_zero(self):
+        flags |= MASK_ZERO
+
+    def _set_decimal(self):
+        flags |= MASK_DECIMAL
+
+    def _set_disable_interupt(self):
+        flags |= MASK_INTERUPT
+
+    def _set_break(self):
+        flags |= MASK_BREAK
+
+    def _set_negative(self):
+        flags &= ~MASK_ZERO
+
+    def _set_overflow(self):
+        flag  |= MASK_OVERFLOW
+
+    
+    """
+    get method
+    """
+    def is_negative(self):
+        pass
+
+    def is_overflow(self):
+        pass
+
+    def is_break(self):
+        pass
+
+    def is_decimal(self):
+        pass
+
+    def is_zero(self):
+        pass
+
+    def is_carry(self):
+        pass
+
+    def is_disable_interupt(self):
+        pass
+
+    """
+    set flag regiser
+    """
+
+    def set_a(self, value):
+        self.a = a & 0xff
+
+    def set_x(self, value):
+        self.x = x & 0xff
+
+    def set_y(self, value):
+        self.y = y & 0xff
+
+    def set_stack(self, value):
+        self.stack_register = value & 0xffff
+
+    def set_pc(self, value):
+        self.pc_register = value & 0xff
+    
+
+    
+    
+
+
 
 
 class CPU(InstructionSet6502):
