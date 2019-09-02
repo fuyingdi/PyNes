@@ -106,37 +106,37 @@ class CpuRegister:
         pass
 
     def get_carry(self):
-        if (flags & MASK_CARRAY) != 0:
+        if (self.flags & self.MASK_CARRAY) != 0:
             return 1
-        elif (flags &MASK_CARRAY) == 0:
+        elif (self.flags & self.MASK_CARRAY) == 0:
             return 0
 
     def get_zero(self):
-        return (flags & MASK_ZERO)
+        return (self.flags & self.MASK_ZERO)
 
     """
     set method
     """
     def _set_carry(self):
-        flags |= MASK_CARRAY
+        self.flags |= self.MASK_CARRAY
 
     def _set_zero(self):
-        flags |= MASK_ZERO
+        self.flags |= self.MASK_ZERO
 
     def _set_decimal(self):
-        flags |= MASK_DECIMAL
+        self.flags |= self.MASK_DECIMAL
 
     def _set_disable_interupt(self):
-        flags |= MASK_INTERUPT
+        self.flags |= self.MASK_INTERUPT
 
     def _set_break(self):
-        flags |= MASK_BREAK
+        self.flags |= self.MASK_BREAK
 
     def _set_negative(self):
-        flags &= ~MASK_ZERO
+        self.flags &= ~self.MASK_ZERO
 
     def _set_overflow(self):
-        flag  |= MASK_OVERFLOW
+        self.flags |= self.MASK_OVERFLOW
 
     
     """
@@ -168,13 +168,13 @@ class CpuRegister:
     """
 
     def set_a(self, value):
-        self.a = a & 0xff
+        self.a = self.a & 0xff
 
     def set_x(self, value):
-        self.x = x & 0xff
+        self.x = self.x & 0xff
 
     def set_y(self, value):
-        self.y = y & 0xff
+        self.y = self.y & 0xff
 
     def set_stack(self, value):
         self.stack_register = value & 0xffff
