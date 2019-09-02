@@ -1,11 +1,14 @@
 import sys
+import threading
+import time
+import random
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 
 class Renderer:
     points = []
-    POINT_SIZE = 5
+    POINT_SIZE = 10
     
     def init(self):
         glClearColor(0, 0, 0, 0)
@@ -29,6 +32,7 @@ class Renderer:
         glFlush()
 
     def set_points(self, point):
+        print("Set Point")
         assert isinstance(point, Point)
         self.points.append(point)
 
@@ -48,8 +52,8 @@ class Renderer:
             
 
     def draw_scene(self):
+        print("Draw")
         self.draw_points()
-        glutSwapBuffers()
         
 
     def main(self):
@@ -64,9 +68,12 @@ class Renderer:
         glutMainLoop()
 
     def test_points(self):
+        print("Test Point")
         for i in range(1000):
             point = Point(i, i ,(1,0,1))
             self.set_points(point)
+            time.sleep(0.01)
+            
 
 
 class Point:
@@ -80,5 +87,18 @@ class Point:
         
 if __name__ == "__main__":
     render = Renderer()
-    render.main()
-    render.test_points()
+    mainloop_thread = threading.Thread(target=render.main, args=())
+    mainloop_thread.start()
+    # render.test_points()
+    while True:
+        print("new point")
+        x = random.randint(0, 1000)
+        y = random.randint(0, 1000)
+        color = (random.uniform(0, 1), random.uniform(
+           0, 1), random.uniform(0, 1))
+        # color = (1,1,0)
+        point = Point(x, y, color)
+        render.set_points(point)
+        time.sleep(0.001)
+    
+    # t1.start()
