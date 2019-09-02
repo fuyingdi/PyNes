@@ -51,17 +51,6 @@ class Points:
         glFlush()
 
 
-# def point():
-#     glClear(GL_COLOR_BUFFER_BIT)
-#     glColor3f(1.0, 0, 0)
-#     glPointSize(1)
-#
-#     glBegin(GL_POINTS)
-#     glVertex2i(100, 300)
-#     glEnd()
-#     glFlush()
-
-
 points = Points()
 
 
