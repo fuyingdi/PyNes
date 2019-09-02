@@ -1,4 +1,5 @@
 from rom_loader import BinaryReader
+from rednerer import Renderer
 
 
 testfile = 'masmix.nes'
@@ -14,3 +15,8 @@ def test_reader():
 
 if __name__ == "__main__":
     test_reader()
+    renderer = Renderer()
+    renderer.run()
+    renderer.test_random_points()
+    
+    

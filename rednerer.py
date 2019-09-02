@@ -8,11 +8,17 @@ from OpenGL.GLUT import *
 
 class Renderer:
     points = []
-    POINT_SIZE = 10
+    canvas_width = 0
+    canvas_height = 0
+    POINT_SIZE = 5
+
+    def __init__(self, canvas_width=1000, canvas_height=1000):
+        self.canvas_height = canvas_height
+        self.canvas_width = canvas_width
     
     def init(self):
         glClearColor(0, 0, 0, 0)
-        gluOrtho2D(0,1000, 0, 1000)
+        gluOrtho2D(0,self.canvas_width, 0, self.canvas_height)
 
     def test(self):
         glClear(GL_COLOR_BUFFER_BIT)
@@ -59,7 +65,7 @@ class Renderer:
     def main(self):
         glutInit(sys.argv)
         glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB)
-        glutInitWindowSize(1000, 1000)
+        glutInitWindowSize(self.canvas_width, self.canvas_height)
         glutInitWindowPosition(50, 50)
         glutCreateWindow("FUCkCPP")
         self.init()
@@ -69,11 +75,29 @@ class Renderer:
 
     def test_points(self):
         print("Test Point")
-        for i in range(1000):
+        for i in range(self.canvas_height):
             point = Point(i, i ,(1,0,1))
             self.set_points(point)
             time.sleep(0.01)
-            
+
+    def test_random_points(self):
+        while True:
+            print("new point")
+            x = random.randint(0, self.canvas_width)
+            y = random.randint(0, self.canvas_height)
+            color = (random.uniform(0, 1), random.uniform(
+            0, 1), random.uniform(0, 1))
+            # color = (1,1,0)
+            point = Point(x, y, color)
+            self.set_points(point)
+            time.sleep(0.001)
+        
+
+    def run(self):
+        mainloop_thread = threading.Thread(target=self.main, args=())
+        mainloop_thread.start()
+
+        
 
 
 class Point:
@@ -84,21 +108,10 @@ class Point:
     x = 0
     y = 0
     color = (1,1,1)
+
+
         
 if __name__ == "__main__":
-    render = Renderer()
-    mainloop_thread = threading.Thread(target=render.main, args=())
-    mainloop_thread.start()
-    # render.test_points()
-    while True:
-        print("new point")
-        x = random.randint(0, 1000)
-        y = random.randint(0, 1000)
-        color = (random.uniform(0, 1), random.uniform(
-           0, 1), random.uniform(0, 1))
-        # color = (1,1,0)
-        point = Point(x, y, color)
-        render.set_points(point)
-        time.sleep(0.001)
-    
-    # t1.start()
+    render = Renderer(500, 500)
+    render.run()
+    render.test_random_points()
